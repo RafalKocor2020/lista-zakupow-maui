@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ListaZakupow.MainPage"
+             Title="Lista Zakupów"
+             BackgroundColor="#F5F5F5">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Kolory -->
+            <Color x:Key="PrimaryGreen">#4CAF50</Color>
+            <Color x:Key="DarkGreen">#388E3C</Color>
+            <Color x:Key="DeleteRed">#F44336</Color>
+            <Color x:Key="TextDark">#212121</Color>
+
+            <!-- Style -->
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource TextDark}"/>
+                <Setter Property="FontFamily" Value="OpenSans-Regular"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout Margin="20" Spacing="15">
+        <!-- Nagłówek -->
+        <Label Text="🛒 Moja lista zakupów" 
+               FontSize="24"
+               TextColor="{StaticResource DarkGreen}"
+               HorizontalOptions="Center"/>
+
+        <!-- Pole wprowadzania -->
+        <Entry x:Name="newItemEntry"
+               Placeholder="Wpisz nazwę produktu..."
+               PlaceholderColor="#9E9E9E"
+               TextColor="{StaticResource TextDark}"
+               FontSize="16"
+               Completed="OnEntryCompleted"
+               BackgroundColor="White"/>
+
+        <!-- Przyciski akcji -->
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button Text="DODAJ"
+                    BackgroundColor="{StaticResource PrimaryGreen}"
+                    TextColor="White"
+                    CornerRadius="20"
+                    FontAttributes="Bold"
+                    Clicked="OnAddButtonClicked"/>
+
+            <Button Grid.Column="1"
+                    Text="WYCZYŚĆ"
+                    BackgroundColor="#FFEBEE"
+                    TextColor="{StaticResource DeleteRed}"
+                    CornerRadius="20"
+                    FontAttributes="Bold"
+                    Clicked="OnClearListClicked"/>
+        </Grid>
+
+        <!-- Licznik -->
+        <Label Text="{Binding Items.Count, StringFormat='Liczba produktów: {0}'}"
+               FontSize="14"
+               TextColor="#757575"
+               HorizontalOptions="Center"/>
+
+        <!-- Lista produktów -->
+        <ListView x:Name="shoppingList"
+                  ItemsSource="{Binding Items}"
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame CornerRadius="10"
+                               Margin="0,5"
+                               BackgroundColor="White"
+                               BorderColor="#EEEEEE"
+                               Padding="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="{Binding Name}"
+                                       FontSize="16"
+                                       VerticalOptions="Center"/>
+
+                                <Button Grid.Column="1"
+                                        Text="✕"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource DeleteRed}"
+                                        FontSize="16"
+                                        Clicked="OnDeleteButtonClicked"/>
+                            </Grid>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
